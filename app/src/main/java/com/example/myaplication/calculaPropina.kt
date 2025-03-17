@@ -3,6 +3,7 @@ package com.example.myaplication
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -18,41 +19,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
-
 @Composable
 fun calculaPropina() {
-    var preuMenu: String by remember { mutableStateOf("") }
     var propina: String by remember { mutableStateOf("") }
-    var resultado: Float? by remember { mutableStateOf(null) }
+    var preu: String by remember { mutableStateOf("") }
     var showText: Boolean by remember { mutableStateOf(false) }
-
+    var resultat: String by remember { mutableStateOf("") }
     Column(
-        Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        TextField(
-            value = preuMenu,
-            onValueChange = { preuMenu = it },
-            label = { Text(text = "Preu del menu") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        )
+        Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        TextField(value = preu, onValueChange = { preu = it }, label = { Text("Preu Total ") })
         TextField(
             value = propina,
             onValueChange = { propina = it },
-            label = { Text(text = "Propina%") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        )
+            label = { Text("Percentatge propina ") })
         Button(onClick = {
-            val preuValor = preuMenu.toFloatOrNull() ?: 0f
-            val propinaValor = propina.toFloatOrNull() ?: 0f
-            resultado = (preuValor * propinaValor / 100)
+            val preuValor = preu.toFloat()
+            val propinavalor = propina.toFloat()
+            resultat = (preuValor * propinavalor / 100).toString()
             showText = true
         }) {
-            Text("Calcular")
+            Text("Calcular ")
         }
-
-        Spacer(Modifier.fillMaxSize(0.1f))
-
+        Spacer(modifier = Modifier.fillMaxHeight(0.1f))
         if (showText) {
-            Text("Propina: ${resultado ?: 0f}€")
+            Text("Propina: $resultat", fontWeight = FontWeight.Bold, fontSize = 24.sp)
         }
     }
 }

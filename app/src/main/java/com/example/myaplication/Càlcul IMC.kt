@@ -1,5 +1,6 @@
 package com.example.myaplication
 
+import android.icu.util.Calendar
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +27,8 @@ fun MainIMC(){
     var alcada:String by remember { mutableStateOf("") }
     var pes:String by remember { mutableStateOf("") }
     var showtext: Boolean by remember { mutableStateOf(false) }
+    var resultatEdat by remember { mutableStateOf("") }
+    var resultatIMC by remember { mutableStateOf("") }
     Column (Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
         TextField(
             value = nom, onValueChange = {nom = it},
@@ -47,25 +50,42 @@ fun MainIMC(){
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         Button(onClick= { showtext = true}){
-            calEdat()
+
             Text("Calcula")
         }
         Spacer(Modifier.fillMaxSize(0.1f))
+        calEdat(any)
+        calculIMC(alcada, pes)
         if (showtext) {
-            Text("$nom", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+            Text("$nom, $resultatEdat, $resultatIMC ", fontWeight = FontWeight.Bold, fontSize = 24.sp)
         }
     }
 
 }
 
-fun calculIMC(){
+fun calculIMC(alcada:String,pes:String){
+    val alcadaValor= alcada.toInt()
+    val pesValor= pes.toInt()
+    val resultadoIMC= pesValor/alcadaValor+alcadaValor
+    val imc=resultadoIMC.toFloat()
+    when{
+        imc<18.5->println("Pes Insufucuent")
+        imc in 18.5..24.9->println("El seu pes es normal")
+        imc in 25.0..50.0-> println("Voste te sobrepes")
+        imc>50.0-> println("Voste te obesita")
+    }
 
 
 }
 
 fun calEdat(any:String,){
-    val anyActual: Int
-    val anyNeix: Int
+    val anyActual= Calendar.getInstance().get(Calendar.YEAR)
+    val anyNeix=any.toInt()
+    val resultatEdat = anyActual-anyNeix
+    println("$resultatEdat")
+
+
+
 
 
 }

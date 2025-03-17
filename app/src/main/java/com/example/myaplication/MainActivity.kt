@@ -47,7 +47,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 @Composable
 fun Act3(modifier: Modifier) {
     Column(modifier.fillMaxSize()) {
